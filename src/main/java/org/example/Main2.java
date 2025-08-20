@@ -75,7 +75,7 @@ public class Main2 {
         if (thread.isInterrupted()) {
             installedThread.start();
         } else {
-            System.out.println("Previous thread was interrupted," + installedThread.getName() + " can't run");
+            System.out.println("Previous thread was interrupted, " + installedThread.getName() + " can't run");
         }
     }
 }
