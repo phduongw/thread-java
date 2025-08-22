@@ -39,6 +39,7 @@ class StopWatch {
         }
 
         var color = threadColor.getColor();
+        System.out.println("i = " + unitCount);
         for (i = unitCount; i > 0; i--) {
             try {
                 timeUnit.sleep(1);
