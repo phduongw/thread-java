@@ -20,4 +20,5 @@ Bao gồm 3 trạng thái:
 - Đây là từ khóa được áp dụng cho cấp độ method.
 - Khi áp dụng từ khóa này, nếu nhiều luồng cùng tác động vào 1 object, và thực thi các hàm synchronize. Thì luồng nào thực thi hàm synchronize trước sẽ sẽ được ưu tiên xử lí, các luồng gọi các hàm synchronize sau sẽ bị tạm dừng cho đến khi luồng trước đó thực thi xong với object đó.
 - Khi [method SYNCHRONIZED]() xuất hiện trong 1 object, nó đảm bảo rằng trạng thái của object luôn được nhìn thấy (nghĩa là khi object được update) bởi nhiều luồng khác.
-- 
+## Deadlock:
+- Deadlock thường xảy ra khi ta có 2 thread trở lên truy cập vào nhiều tài nguyên được chia sẻ. 

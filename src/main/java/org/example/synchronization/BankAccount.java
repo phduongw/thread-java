@@ -43,6 +43,5 @@ public class BankAccount {
         }
 
         System.out.printf("STARTING BALANCE: %.0f, WITHDRAW (%.0f)" + " INSUFFICIENT FUNDS", orgBalance, amount);
-
     }
 }
