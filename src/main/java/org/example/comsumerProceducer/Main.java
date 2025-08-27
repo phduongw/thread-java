@@ -1,39 +1,58 @@
 package org.example.comsumerProceducer;
 
 import java.util.Random;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 class MessageRepository {
     private String message;
     private boolean hasMessage = false;
+    private final Lock lock = new ReentrantLock();
 
-    public synchronized String read() {
-        while (!hasMessage) {
+    public String read() {
+        if (lock.tryLock()) {
             try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                while (!hasMessage) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                hasMessage = false;
+            } finally {
+                lock.unlock();
             }
+        } else {
+            System.out.println("** Read blocked");
+            hasMessage = false;
         }
 
-        System.out.println("Reading message");
-        hasMessage = false;
-        notifyAll();
         return message;
     }
 
-    public synchronized void write(String message) {
-        while (hasMessage) {
+    public void write(String message) {
+        if (lock.tryLock()) {
             try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                while (hasMessage) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                hasMessage = true;
+            } finally {
+                lock.unlock();
             }
+        } else {
+            System.out.println("** Write blocked");
+            hasMessage = true;
         }
 
-        hasMessage = true;
-        notifyAll();
         this.message = message;
-        System.out.println("Message written: " + message);
     }
 }
 
@@ -104,6 +123,22 @@ public class Main {
 
         var threadWriter = new Thread(messageWriter);
         var threadReader = new Thread(messageReader);
+
+        threadWriter.setUncaughtExceptionHandler((thread, exc) -> {
+            System.out.println("Writer had exception: " + exc);
+            if (threadReader.isAlive()) {
+                System.out.println("Going to interrupt the reader");
+                threadReader.interrupt();
+            }
+        });
+
+        threadReader.setUncaughtExceptionHandler((thread, exc) -> {
+            System.out.println("Thread had exception: " + exc);
+            if (threadWriter.isAlive()) {
+                System.out.println("Going to interrupt the writer");
+                threadWriter.interrupt();
+            }
+        });
 
         threadWriter.start();
         threadReader.start();

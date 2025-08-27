@@ -22,3 +22,7 @@ Bao gồm 3 trạng thái:
 - Khi [method SYNCHRONIZED]() xuất hiện trong 1 object, nó đảm bảo rằng trạng thái của object luôn được nhìn thấy (nghĩa là khi object được update) bởi nhiều luồng khác.
 ## Deadlock:
 - Deadlock thường xảy ra khi ta có 2 thread trở lên truy cập vào nhiều tài nguyên được chia sẻ. 
+- [WAIT() Method]():
+  - Khi 1 object gọi method này thì nó sẽ đưa thread hiện tại vào trạng thái wait set (hàng chờ)
+  - Thread sẽ được ngủ yên cho đến khi có object hiện tại gọi method notify ở 1 luồng khác hoặc gọi thread bị gián đoạn (interrupt).
+  - 
