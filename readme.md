@@ -25,4 +25,3 @@ Bao gồm 3 trạng thái:
 - [WAIT() Method]():
   - Khi 1 object gọi method này thì nó sẽ đưa thread hiện tại vào trạng thái wait set (hàng chờ)
   - Thread sẽ được ngủ yên cho đến khi có object hiện tại gọi method notify ở 1 luồng khác hoặc gọi thread bị gián đoạn (interrupt).
-  - 

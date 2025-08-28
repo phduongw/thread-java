@@ -33,7 +33,7 @@ class MessageRepository {
     }
 
     public void write(String message) {
-        if (lock.tryLock()) {
+        if (lock.tryLock()) { //tryLock dùng để kiểm tra xem luồng này có đang chiếm được 1 cái lock nào của object không? Đồng thời nó sẽ lập tức chiếm lấy lock ngay khi có cơ hội
             try {
                 while (hasMessage) {
                     try {
@@ -45,7 +45,7 @@ class MessageRepository {
 
                 hasMessage = true;
             } finally {
-                lock.unlock();
+                lock.unlock(); // Giải phóng object khỏi lock
             }
         } else {
             System.out.println("** Write blocked");
